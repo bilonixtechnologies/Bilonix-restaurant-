@@ -1,4 +1,4 @@
-const cart = [];
+const cart = {};
 
 const menuItems = [
     { name: "Burger", price: 8 },
@@ -10,19 +10,65 @@ const menuItems = [
 const buttons = document.querySelectorAll(".card button");
 
 buttons.forEach((button, index) => {
-    button.addEventListener("click", () => {
-        cart.push(menuItems[index]);
-        updateCart();
-    });
+
+    if(index < menuItems.length){
+
+        button.addEventListener("click", () => {
+
+            const item = menuItems[index];
+
+            if(cart[item.name]){
+                cart[item.name].quantity++;
+            }else{
+                cart[item.name]={
+                    ...item,
+                    quantity:1
+                };
+            }
+
+            updateCart();
+
+        });
+
+    }
+
 });
 
-function updateCart() {
-    let total = 0;
+function updateCart(){
 
-    cart.forEach(item => {
-        total += item.price;
-    });
+    let total=0;
 
-    document.getElementById("cart-count").textContent = cart.length;
-    document.getElementById("cart-total").textContent = "$" + total.toFixed(2);
+    let count=0;
+
+    const cartItems=document.getElementById("cart-items");
+
+    cartItems.innerHTML="";
+
+    for(let key in cart){
+
+        const item=cart[key];
+
+        total+=item.price*item.quantity;
+
+        count+=item.quantity;
+
+        cartItems.innerHTML+=`
+        <p>
+        ${item.name}
+        × ${item.quantity}
+        - $${(item.price*item.quantity).toFixed(2)}
+        </p>
+        `;
+    }
+
+    document.getElementById("cart-count").textContent=count;
+
+    document.getElementById("cart-total").textContent="$"+total.toFixed(2);
+
 }
+
+document.getElementById("checkout-btn").addEventListener("click",()=>{
+
+    alert("Order placed successfully!");
+
+});
