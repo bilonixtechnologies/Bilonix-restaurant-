@@ -224,3 +224,13 @@ header h1{
 }
 
 }
+#cart-items p{
+    padding:10px 0;
+    border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+hr{
+    margin:15px 0;
+    border:none;
+    border-top:1px solid rgba(255,255,255,.2);
+}
